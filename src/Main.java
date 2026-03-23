@@ -1,25 +1,69 @@
-import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.List;
+
+class RoomInventory {
+    private final List<String> availableRooms = new ArrayList<>();
+
+    public RoomInventory() {
+        availableRooms.add("Suite-1");
+        availableRooms.add("Deluxe-1");
+        availableRooms.add("Basic-1");
+    }
+
+    public synchronized String bookRoom(String guestName) {
+        if (availableRooms.isEmpty()) {
+            return guestName + " could not book a room. No rooms available.";
+        }
+
+        String room = availableRooms.remove(0);
+        return guestName + " successfully booked " + room;
+    }
+
+    public synchronized void showAvailableRooms() {
+        System.out.println("Remaining Rooms: " + availableRooms);
+    }
+}
+
+class BookingTask extends Thread {
+    private final RoomInventory inventory;
+    private final String guestName;
+
+    public BookingTask(RoomInventory inventory, String guestName) {
+        this.inventory = inventory;
+        this.guestName = guestName;
+    }
+
+    @Override
+    public void run() {
+        System.out.println(inventory.bookRoom(guestName));
+    }
+}
 
 public class Main {
     public static void main(String[] args) {
-        System.out.println("=== Booking Cancellation & Inventory Rollback ===");
+        System.out.println("=== UC11: Concurrent Booking Simulation ===");
 
-        HashMap<String, Integer> roomInventory = new HashMap<>();
-        roomInventory.put("Standard", 5);
-        roomInventory.put("Deluxe", 3);
-        roomInventory.put("Suite", 2);
+        RoomInventory inventory = new RoomInventory();
 
-        String bookedRoomType = "Deluxe";
+        BookingTask guest1 = new BookingTask(inventory, "Aman");
+        BookingTask guest2 = new BookingTask(inventory, "Bina");
+        BookingTask guest3 = new BookingTask(inventory, "Charan");
+        BookingTask guest4 = new BookingTask(inventory, "Divya");
 
-        System.out.println("\nInventory before booking cancellation:");
-        System.out.println(roomInventory);
+        guest1.start();
+        guest2.start();
+        guest3.start();
+        guest4.start();
 
-        roomInventory.put(bookedRoomType, roomInventory.get(bookedRoomType) + 1);
+        try {
+            guest1.join();
+            guest2.join();
+            guest3.join();
+            guest4.join();
+        } catch (InterruptedException e) {
+            System.out.println("Thread interrupted: " + e.getMessage());
+        }
 
-        System.out.println("\nBooking for room type '" + bookedRoomType + "' has been cancelled.");
-        System.out.println("Inventory rolled back successfully.");
-
-        System.out.println("\nInventory after cancellation:");
-        System.out.println(roomInventory);
+        inventory.showAvailableRooms();
     }
 }
