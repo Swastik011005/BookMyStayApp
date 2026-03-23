@@ -1,45 +1,38 @@
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
+
+class Reservation {
+    String guestName;
+    String roomType;
+    List<String> services;
+
+    Reservation(String guestName, String roomType) {
+        this.guestName = guestName;
+        this.roomType = roomType;
+        this.services = new ArrayList<>();
+    }
+
+    void addService(String service) {
+        services.add(service);
+    }
+
+    void showReservationDetails() {
+        System.out.println("Guest Name: " + guestName);
+        System.out.println("Room Type: " + roomType);
+        System.out.println("Selected Services: " + services);
+    }
+}
 
 public class Main {
     public static void main(String[] args) {
+        System.out.println("=== Add-On Service Selection ===");
 
-        System.out.println("=== Book My Stay App ===");
-        System.out.println("Use Case 6: Reservation Confirmation & Room Allocation");
-        System.out.println();
+        Reservation reservation = new Reservation("Aarav", "Deluxe");
 
-        // Room inventory
-        HashMap<String, Integer> roomInventory = new HashMap<>();
-        roomInventory.put("Single Room", 2);
-        roomInventory.put("Double Room", 1);
-        roomInventory.put("Suite Room", 1);
+        reservation.addService("Breakfast");
+        reservation.addService("Airport Pickup");
+        reservation.addService("Extra Bed");
 
-        // Booking request
-        String customerName = "Aarav";
-        String requestedRoom = "Single Room";
-
-        System.out.println("Customer Name: " + customerName);
-        System.out.println("Requested Room Type: " + requestedRoom);
-        System.out.println();
-
-        if (roomInventory.containsKey(requestedRoom) && roomInventory.get(requestedRoom) > 0) {
-            int availableRooms = roomInventory.get(requestedRoom);
-
-            System.out.println("Room is available.");
-            System.out.println("Reservation confirmed for " + customerName);
-
-            roomInventory.put(requestedRoom, availableRooms - 1);
-
-            System.out.println("Room allocated: " + requestedRoom);
-            System.out.println("Remaining " + requestedRoom + ": " + roomInventory.get(requestedRoom));
-        } else {
-            System.out.println("Reservation failed. Requested room is not available.");
-        }
-
-        System.out.println();
-        System.out.println("Updated Room Inventory:");
-        for (Map.Entry<String, Integer> entry : roomInventory.entrySet()) {
-            System.out.println(entry.getKey() + " -> " + entry.getValue());
-        }
+        reservation.showReservationDetails();
     }
 }
