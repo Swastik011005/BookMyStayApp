@@ -1,36 +1,25 @@
-import java.util.Scanner;
+import java.util.HashMap;
 
 public class Main {
     public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
+        System.out.println("=== Booking Cancellation & Inventory Rollback ===");
 
-        System.out.println("=== Error Handling & Validation ===");
+        HashMap<String, Integer> roomInventory = new HashMap<>();
+        roomInventory.put("Standard", 5);
+        roomInventory.put("Deluxe", 3);
+        roomInventory.put("Suite", 2);
 
-        try {
-            System.out.print("Enter guest name: ");
-            String guestName = sc.nextLine();
+        String bookedRoomType = "Deluxe";
 
-            if (guestName.trim().isEmpty()) {
-                throw new IllegalArgumentException("Guest name cannot be empty.");
-            }
+        System.out.println("\nInventory before booking cancellation:");
+        System.out.println(roomInventory);
 
-            System.out.print("Enter number of nights: ");
-            int numberOfNights = sc.nextInt();
+        roomInventory.put(bookedRoomType, roomInventory.get(bookedRoomType) + 1);
 
-            if (numberOfNights <= 0) {
-                throw new IllegalArgumentException("Number of nights must be greater than 0.");
-            }
+        System.out.println("\nBooking for room type '" + bookedRoomType + "' has been cancelled.");
+        System.out.println("Inventory rolled back successfully.");
 
-            System.out.println("\nBooking details are valid.");
-            System.out.println("Guest Name       : " + guestName);
-            System.out.println("Number of Nights : " + numberOfNights);
-
-        } catch (IllegalArgumentException e) {
-            System.out.println("Validation Error: " + e.getMessage());
-        } catch (Exception e) {
-            System.out.println("Input Error: Please enter valid data.");
-        } finally {
-            sc.close();
-        }
+        System.out.println("\nInventory after cancellation:");
+        System.out.println(roomInventory);
     }
 }
