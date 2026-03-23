@@ -5,44 +5,38 @@ public class Main {
     public static void main(String[] args) {
 
         System.out.println("=== Book My Stay App ===");
-        System.out.println("Use Case 3: Centralized Room Inventory Management");
+        System.out.println("Use Case 4: Room Search & Availability Check");
         System.out.println();
 
-        // Centralized inventory using HashMap
+        // Centralized room inventory
         HashMap<String, Integer> roomInventory = new HashMap<>();
-
-        // Add room types and available counts
         roomInventory.put("Single Room", 5);
         roomInventory.put("Double Room", 3);
         roomInventory.put("Suite Room", 2);
 
-        System.out.println("Initial Room Inventory Details:");
+        System.out.println("Available Room Inventory:");
         for (Map.Entry<String, Integer> entry : roomInventory.entrySet()) {
-            System.out.println("Room Type: " + entry.getKey());
-            System.out.println("Available Rooms: " + entry.getValue());
-            System.out.println();
+            System.out.println(entry.getKey() + " -> " + entry.getValue() + " rooms available");
         }
 
-        // Update inventory
-        System.out.println("Updating inventory...");
-        roomInventory.put("Double Room", 4);
-
-        // Display updated inventory
         System.out.println();
-        System.out.println("Updated Room Inventory Details:");
-        for (Map.Entry<String, Integer> entry : roomInventory.entrySet()) {
-            System.out.println("Room Type: " + entry.getKey());
-            System.out.println("Available Rooms: " + entry.getValue());
-            System.out.println();
-        }
 
-        // Search specific room type
+        // Search room type
         String searchRoom = "Suite Room";
-        System.out.println("Checking availability for: " + searchRoom);
+        System.out.println("Searching for room type: " + searchRoom);
+
         if (roomInventory.containsKey(searchRoom)) {
-            System.out.println("Available Rooms: " + roomInventory.get(searchRoom));
+            int available = roomInventory.get(searchRoom);
+            System.out.println("Room found.");
+            System.out.println("Available count: " + available);
+
+            if (available > 0) {
+                System.out.println("Status: Available for booking");
+            } else {
+                System.out.println("Status: Not available");
+            }
         } else {
-            System.out.println("Room type not found.");
+            System.out.println("Room type not found in inventory");
         }
     }
 }
