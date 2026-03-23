@@ -1,38 +1,39 @@
 import java.util.ArrayList;
-import java.util.List;
 
-class Reservation {
+class Booking {
     String guestName;
     String roomType;
-    List<String> services;
+    int numberOfNights;
 
-    Reservation(String guestName, String roomType) {
+    Booking(String guestName, String roomType, int numberOfNights) {
         this.guestName = guestName;
         this.roomType = roomType;
-        this.services = new ArrayList<>();
+        this.numberOfNights = numberOfNights;
     }
 
-    void addService(String service) {
-        services.add(service);
-    }
-
-    void showReservationDetails() {
-        System.out.println("Guest Name: " + guestName);
-        System.out.println("Room Type: " + roomType);
-        System.out.println("Selected Services: " + services);
+    void displayBooking() {
+        System.out.println("Guest Name      : " + guestName);
+        System.out.println("Room Type       : " + roomType);
+        System.out.println("Number of Nights: " + numberOfNights);
+        System.out.println("-----------------------------");
     }
 }
 
 public class Main {
     public static void main(String[] args) {
-        System.out.println("=== Add-On Service Selection ===");
+        System.out.println("=== Booking History & Reporting ===");
 
-        Reservation reservation = new Reservation("Aarav", "Deluxe");
+        ArrayList<Booking> bookingHistory = new ArrayList<>();
 
-        reservation.addService("Breakfast");
-        reservation.addService("Airport Pickup");
-        reservation.addService("Extra Bed");
+        bookingHistory.add(new Booking("Aarav", "Deluxe", 2));
+        bookingHistory.add(new Booking("Diya", "Suite", 3));
+        bookingHistory.add(new Booking("Rohan", "Standard", 1));
 
-        reservation.showReservationDetails();
+        System.out.println("\nBooking History:");
+        for (Booking booking : bookingHistory) {
+            booking.displayBooking();
+        }
+
+        System.out.println("Total Bookings: " + bookingHistory.size());
     }
 }
