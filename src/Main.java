@@ -1,39 +1,36 @@
-import java.util.ArrayList;
-
-class Booking {
-    String guestName;
-    String roomType;
-    int numberOfNights;
-
-    Booking(String guestName, String roomType, int numberOfNights) {
-        this.guestName = guestName;
-        this.roomType = roomType;
-        this.numberOfNights = numberOfNights;
-    }
-
-    void displayBooking() {
-        System.out.println("Guest Name      : " + guestName);
-        System.out.println("Room Type       : " + roomType);
-        System.out.println("Number of Nights: " + numberOfNights);
-        System.out.println("-----------------------------");
-    }
-}
+import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        System.out.println("=== Booking History & Reporting ===");
+        Scanner sc = new Scanner(System.in);
 
-        ArrayList<Booking> bookingHistory = new ArrayList<>();
+        System.out.println("=== Error Handling & Validation ===");
 
-        bookingHistory.add(new Booking("Aarav", "Deluxe", 2));
-        bookingHistory.add(new Booking("Diya", "Suite", 3));
-        bookingHistory.add(new Booking("Rohan", "Standard", 1));
+        try {
+            System.out.print("Enter guest name: ");
+            String guestName = sc.nextLine();
 
-        System.out.println("\nBooking History:");
-        for (Booking booking : bookingHistory) {
-            booking.displayBooking();
+            if (guestName.trim().isEmpty()) {
+                throw new IllegalArgumentException("Guest name cannot be empty.");
+            }
+
+            System.out.print("Enter number of nights: ");
+            int numberOfNights = sc.nextInt();
+
+            if (numberOfNights <= 0) {
+                throw new IllegalArgumentException("Number of nights must be greater than 0.");
+            }
+
+            System.out.println("\nBooking details are valid.");
+            System.out.println("Guest Name       : " + guestName);
+            System.out.println("Number of Nights : " + numberOfNights);
+
+        } catch (IllegalArgumentException e) {
+            System.out.println("Validation Error: " + e.getMessage());
+        } catch (Exception e) {
+            System.out.println("Input Error: Please enter valid data.");
+        } finally {
+            sc.close();
         }
-
-        System.out.println("Total Bookings: " + bookingHistory.size());
     }
 }
